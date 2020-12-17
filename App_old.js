@@ -1,52 +1,77 @@
-import {StatusBar} from 'expo-status-bar';
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  ScrollView,
-  FlatList,
-} from 'react-native';
-
-import GoalItem from './components/GoalItem';
-import GoalInput from './components/GoalInput';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
 
 // Lecture 5
-export default function App () {
-  const [courseGoals, setCourseGoals] = useState ([]);
+export default function App() {
+  const [enteredGoal, setEnteredGoal] = useState('');
 
-  const addGoalHandler = goalTitle => {
-    setCourseGoals (currentGoals => [
-      ...currentGoals,
-      {id: Math.random ().toString (), value: goalTitle},
-    ]);
+  const [courseGoals, setCourseGoals] = useState([]); 
+
+  const goalInputHandler = (enteredText) => {
+    setEnteredGoal(enteredText);
   };
+
+  const addGoalHandler = () => {
+    setCourseGoals(currentGoals => [
+      ...currentGoals, {id:  Math.random().toString(), value: enteredGoal}
+    ]);
+    console.log(enteredGoal);
+  }
 
   return (
     <View style={styles.screen}>
-      <GoalInput onDelete={() => console.log('pressed')} onAddGoal={addGoalHandler} />
+      <View style={styles.inputContainer}>
+        <TextInput 
+          placeholder="Course Goal" 
+          style={styles.input} 
+          onChangeText={goalInputHandler}
+          value={enteredGoal}  
+          />
+        <Button title="ADD text" onPress={addGoalHandler} />
+      </View>
       <FlatList
-        keyExtractor={(item, index) => item.id}
-        data={courseGoals}
-        renderItem={itemData => <GoalItem title={itemData.item.value} />}
+        keyExtractor = {(item, index) => item.id}
+        data={courseGoals} 
+        renderItem={itemData => (
+          <View style={styles.list}>
+            <Text>{itemData.item.value}</Text>
+          </View>
+        )}
       />
     </View>
   );
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   screen: {
-    padding: 50,
+    padding: 50
   },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  input: {
+    width: '80%',
+    borderColor: 'black',
+    borderWidth: 1,
+    padding: 10
+  },
+  list: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: '#ccc',
+    borderColor: 'black',
+    borderWidth: 1,
+  }
 });
 
 // // Lecture 4
 // export default function App() {
 //   const [enteredGoal, setEnteredGoal] = useState('');
 
-//   const [courseGoals, setCourseGoals] = useState([]);
+//   const [courseGoals, setCourseGoals] = useState([]); 
 
 //   const goalInputHandler = (enteredText) => {
 //     setEnteredGoal(enteredText);
@@ -60,11 +85,11 @@ const styles = StyleSheet.create ({
 //   return (
 //     <View style={styles.screen}>
 //       <View style={styles.inputContainer}>
-//         <TextInput
-//           placeholder="Course Goal"
-//           style={styles.input}
+//         <TextInput 
+//           placeholder="Course Goal" 
+//           style={styles.input} 
 //           onChangeText={goalInputHandler}
-//           value={enteredGoal}
+//           value={enteredGoal}  
 //           />
 //         <Button title="ADD text" onPress={addGoalHandler} />
 //       </View>
@@ -103,7 +128,7 @@ const styles = StyleSheet.create ({
 // export default function App() {
 //   const [enteredGoal, setEnteredGoal] = useState('');
 
-//   const [courseGoals, setCourseGoals] = useState([]);
+//   const [courseGoals, setCourseGoals] = useState([]); 
 
 //   const goalInputHandler = (enteredText) => {
 //     setEnteredGoal(enteredText);
@@ -117,11 +142,11 @@ const styles = StyleSheet.create ({
 //   return (
 //     <View style={styles.screen}>
 //       <View style={styles.inputContainer}>
-//         <TextInput
-//           placeholder="Course Goal"
-//           style={styles.input}
+//         <TextInput 
+//           placeholder="Course Goal" 
+//           style={styles.input} 
 //           onChangeText={goalInputHandler}
-//           value={enteredGoal}
+//           value={enteredGoal}  
 //           />
 //         <Button title="ADD text" onPress={addGoalHandler} />
 //       </View>
